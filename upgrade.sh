@@ -26,7 +26,7 @@ export NVM_DIR="$HOME/.nvm"
 
 npmDeps=""
 
-for dep in `npm ls -g --depth=0 --parseable | perl -nle 'm/.*\/(.*?)$/; print $1'`
+for dep in `npm ls -g --depth=0 --parseable | grep node_modules/ | perl -nle 'm/.*node_modules\/(.*?)$/; print $1'`
 do
   if [ "$dep" != "lib" ] && [ "$dep" != "npm" ]
   then
@@ -34,14 +34,16 @@ do
   fi
 done
 
+# TODO: install the latest release of every lts version in the system
 echo "Running 'nvm install --lts --latest-npm'"
 nvm install --lts --latest-npm
 
 echo "Running 'npm i -g $npmDeps'"
 npm i -g $npmDeps
 
-for verion in `ls -1 $NVM_DIR/versions/node | sort -V | sed \\$d`
-do
-  echo "Running 'nvm uninstall $verion'"
-  nvm uninstall $verion
-done
+# TODO: keep only latest version of each major release
+# for verion in `ls -1 $NVM_DIR/versions/node | sort -V | sed \\$d`
+# do
+#   echo "Running 'nvm uninstall $verion'"
+#   nvm uninstall $verion
+# done
