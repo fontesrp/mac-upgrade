@@ -1,6 +1,6 @@
 #!/bin/bash
 
-versionRegex='([[:digit:]]{2}\.){2}[[:digit:]]{1,}'
+versionRegex='([[:digit:]]+\.){2}[[:digit:]]+'
 
 extract_version() {
   sed -E "s/.*v($versionRegex).*/\\1/g" $1
@@ -16,7 +16,7 @@ get_all_node_versions() {
 get_global_npm_packages() {
   npm ls -g --depth=0 --parseable | \
   grep node_modules/ | \
-  grep -v /npm | \
+  grep -v /npm$ | \
   sed -E 's/.*node_modules\/(.*)$/\1/g'
 }
 
