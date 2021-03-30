@@ -13,6 +13,13 @@ get_all_node_versions() {
   sort -V
 }
 
+get_global_npm_packages() {
+  npm ls -g --depth=0 --parseable | \
+  grep node_modules/ | \
+  grep -v /npm | \
+  sed -E 's/.*node_modules\/(.*)$/\1/g'
+}
+
 get_latest_node() {
   get_all_node_versions | \
   tail -1
@@ -53,12 +60,9 @@ export NVM_DIR="$HOME/.nvm"
 
 npmDeps=''
 
-for dep in `npm ls -g --depth=0 --parseable | grep node_modules/ | perl -nle 'm/.*node_modules\/(.*?)$/; print $1'`
+for dep in `get_global_npm_packages`
 do
-  if [ "$dep" != 'lib' ] && [ "$dep" != 'npm' ]
-  then
-    npmDeps="$npmDeps$dep "
-  fi
+  npmDeps="$npmDeps$dep "
 done
 
 # TODO: install the latest release of every lts version in the system
@@ -66,7 +70,10 @@ upgrade_echo 'Running "nvm install --lts --latest-npm"'
 nvm install --lts --latest-npm
 
 upgrade_echo "Running \"npm i -g $npmDeps\""
+originalDir=`pwd`
+cd $HOME
 npm i -g $npmDeps
+cd $originalDir
 
 upgrade_echo 'Updating path for Sublime JsPrettier'
 sublimePrefsFile="$HOME/Library/Application Support/Sublime Text 3/Packages/User/JsPrettier.sublime-settings"
