@@ -40,6 +40,7 @@ saveFileAsScript() {
   local scriptPath=/usr/local/bin/$scriptName
   rm -f "$scriptPath"
   downloadFile $filename > $scriptPath
+  chmod +x $scriptPath
 }
 
 repoTree=`getRepoTree`
