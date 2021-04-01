@@ -3,5 +3,6 @@
 open /Applications/Slack.app
 open /Applications/Microsoft\ Teams.app
 open /Applications/Harvest.app
-sublime
+sublime ~/Sites/docme-provider-app
+sublime ~/Sites/docme-patient-app
 upgrade
