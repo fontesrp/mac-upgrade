@@ -1,22 +1,19 @@
 #!/bin/bash
 
 getProjectRootDir() {
-  local originalDir=$(pwd)
-  local scriptPath=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
-  local folders=$(echo $scriptPath | tr '/' "\n")
-
-  cd $originalDir
+  local projectPath=$(pwd)
+  local folders=$(echo $projectPath | tr '/' "\n")
 
   for folder in $folders
   do
-    local packageFile=$(ls -la $scriptPath | grep -c package.json)
+    local packageFile=$(ls -la $projectPath | grep -c package.json)
 
     if [ $packageFile == '0' ]
     then
       # Go up one folder
-      scriptPath=$(echo $scriptPath | sed -E 's/(.*)\/.*/\1/g')
+      projectPath=$(echo $projectPath | sed -E 's/(.*)\/.*/\1/g')
     else
-      echo $scriptPath
+      echo $projectPath
       return 0
     fi
   done
