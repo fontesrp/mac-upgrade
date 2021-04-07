@@ -83,6 +83,9 @@ sed \
   -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
   "$sublimePrefsFile"
 
+rm -f $HOME/node_modules
+ln -s $HOME/.nvm/versions/node/$latestNode/lib/node_modules $HOME/node_modules
+
 # TODO: keep only latest version of each major release
 for verion in `get_older_nodes`
 do
