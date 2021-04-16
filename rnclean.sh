@@ -1,17 +1,17 @@
 #!/bin/bash
 
 getProjectRootDir() {
-  local projectPath=$(pwd)
-  local folders=$(echo $projectPath | tr '/' "\n")
+  local projectPath=`pwd`
+  local folders=`echo $projectPath | tr '/' "\n"`
 
   for folder in $folders
   do
-    local packageFile=$(ls -la $projectPath | grep -c package.json)
+    local packageFile=`ls -la $projectPath | grep -c package.json`
 
     if [ $packageFile == '0' ]
     then
       # Go up one folder
-      projectPath=$(echo $projectPath | sed -E 's/(.*)\/.*/\1/g')
+      projectPath=`echo $projectPath | sed -E 's/(.*)\/.*/\1/g'`
     else
       echo $projectPath
       return 0
@@ -21,14 +21,14 @@ getProjectRootDir() {
   return 1
 }
 
-projectRoot=$(getProjectRootDir)
+projectRoot=`getProjectRootDir`
 
-beautyEcho() {
-  echo "💄 $1"
+customEcho() {
+  echo "♨️  $1"
 }
 
 cleanAndroid() {
-  local originalDir=$(pwd)
+  local originalDir=`pwd`
   local androidPath=$projectRoot/android
   cd $androidPath
 
@@ -52,10 +52,10 @@ cleanAndroid() {
 }
 
 cleanAndroidNuclear() {
-  beautyEcho 'Make sure you have installed all dependencies listed here:'
-  beautyEcho 'https://github.com/rock3r/deep-clean#installing-the-script-dependencies'
+  customEcho 'Make sure you have installed all dependencies listed here:'
+  customEcho 'https://github.com/rock3r/deep-clean#installing-the-script-dependencies'
 
-  local originalDir=$(pwd)
+  local originalDir=`pwd`
 
   cd $projectRoot/android
 

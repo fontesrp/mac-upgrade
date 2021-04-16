@@ -19,10 +19,10 @@ quitApp() {
 }
 
 apps=( \
-  "Slack" \
-  "Microsoft Teams" \
-  "Harvest" \
-  "Sublime Text"
+  'Harvest' \
+  'Microsoft Teams' \
+  'Slack' \
+  'Sublime Text'
 )
 
 for app in "${apps[@]}"

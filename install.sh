@@ -5,6 +5,10 @@ gitHubRepoName=mac-upgrade
 gitHubRepoPath=$gitHubUsername/$gitHubRepoName
 gitHubBranch=master
 
+customEcho() {
+  echo "♨️  $1"
+}
+
 downloadFile() {
   curl \
     "https://raw.githubusercontent.com/$gitHubRepoPath/$gitHubBranch/$1" \
@@ -38,6 +42,9 @@ saveFileAsScript() {
   local filename=$1
   local scriptName=`echo $filename | sed -E 's/([[:alpha:]]+)\.sh/\1/g'`
   local scriptPath=/usr/local/bin/$scriptName
+
+  customEcho "installing $scriptName"
+
   rm -f "$scriptPath"
   downloadFile $filename > $scriptPath
   chmod +x $scriptPath

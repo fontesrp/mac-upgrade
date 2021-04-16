@@ -2,93 +2,123 @@
 
 versionRegex='([[:digit:]]+\.){2}[[:digit:]]+'
 
-extract_version() {
+customEcho() {
+  echo "♨️  $1"
+}
+
+extractVersion() {
   sed -E "s/.*v($versionRegex).*/\\1/g" $1
 }
 
-get_all_node_versions() {
+fixSublimePackage() {
+  local sublimePrefsFile="$HOME/Library/Application Support/Sublime Text 3/Packages/User/JsPrettier.sublime-settings"
+  local latestNode=$1
+  customEcho 'Updating path for Sublime JsPrettier'
+  sed \
+    -i '' \
+    -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
+    "$sublimePrefsFile"
+}
+
+getAllNodeVersions() {
   nvm ls --no-colors | \
   grep -E '^[ -]>? +v' | \
-  extract_version | \
+  extractVersion | \
   sort -V
 }
 
-get_global_npm_packages() {
+getGlobalNpmPackages() {
   npm ls -g --depth=0 --parseable | \
   grep node_modules/ | \
   grep -v /npm$ | \
   sed -E 's/.*node_modules\/(.*)$/\1/g'
 }
 
-get_latest_node() {
-  get_all_node_versions | \
+getLatestNode() {
+  getAllNodeVersions | \
   tail -1
 }
 
-get_older_nodes() {
-  get_all_node_versions | \
+getNpmDepsToReinstall() {
+  local npmDeps=''
+
+  for dep in `getGlobalNpmPackages`
+  do
+    npmDeps="$npmDeps$dep "
+  done
+
+  echo $npmDeps
+}
+
+getOlderNodes() {
+  getAllNodeVersions | \
   sed -E '$ d'
 }
 
-upgrade_echo() {
-  echo "♨️  $1"
+globalNpm() {
+  local originalDir=`pwd`
+  cd $HOME
+  customEcho "Running \"npm i -g $1\""
+  npm i -g $1
+  cd $originalDir
 }
 
-# Homebrew
-upgrade_echo 'Running "brew update"'
-brew update
+homebrew() {
+  customEcho 'Running "brew update"'
+  brew update
+  customEcho 'Running "brew upgrade"'
+  brew upgrade
+}
 
-upgrade_echo 'Running "brew upgrade"'
-brew upgrade
+homeNodeModules() {
+  rm -f $HOME/node_modules
+  ln -s $HOME/.nvm/versions/node/v$1/lib/node_modules $HOME/node_modules
+}
 
-# Ruby
-RVM_SCRIPTS_DIR="$HOME/.rvm/scripts/rvm"
-source $RVM_SCRIPTS_DIR
+installLatestNode() {
+  customEcho 'Running "nvm install --lts --latest-npm"'
+  nvm install --lts --latest-npm
+}
 
-upgrade_echo 'Running "rvm get stable"'
-rvm get stable
+nodeViaNvm() {
+  export NVM_DIR=$HOME/.nvm
+  . '/usr/local/opt/nvm/nvm.sh'
 
-upgrade_echo 'Running "gem install cocoapods"'
-gem install cocoapods
+  local npmDeps=`getNpmDepsToReinstall`
 
-upgrade_echo 'Running "pod repo update"'
-pod repo update
+  # TODO: install the latest release of every lts version in the system
+  installLatestNode
 
-# Node
-export NVM_DIR="$HOME/.nvm"
-. '/usr/local/opt/nvm/nvm.sh'
+  globalNpm $npmDeps
 
-npmDeps=''
+  local latestNode=`getLatestNode`
 
-for dep in `get_global_npm_packages`
-do
-  npmDeps="$npmDeps$dep "
-done
+  fixSublimePackage $latestNode
 
-# TODO: install the latest release of every lts version in the system
-upgrade_echo 'Running "nvm install --lts --latest-npm"'
-nvm install --lts --latest-npm
+  homeNodeModules $latestNode
 
-upgrade_echo "Running \"npm i -g $npmDeps\""
-originalDir=`pwd`
-cd $HOME
-npm i -g $npmDeps
-cd $originalDir
+  # TODO: keep only latest version of each major release
+  for verion in `getOlderNodes`
+  do
+    customEcho "Running \"nvm uninstall $verion\""
+    nvm uninstall $verion
+  done
+}
 
-upgrade_echo 'Updating path for Sublime JsPrettier'
-sublimePrefsFile="$HOME/Library/Application Support/Sublime Text 3/Packages/User/JsPrettier.sublime-settings"
-latestNode=`get_latest_node`
-sed \
-  -i '' \
-  -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
-  "$sublimePrefsFile"
+ruby() {
+  local RVM_SCRIPTS_DIR=$HOME/.rvm/scripts/rvm
+  source $RVM_SCRIPTS_DIR
 
-rm -f $HOME/node_modules
-ln -s $HOME/.nvm/versions/node/v$latestNode/lib/node_modules $HOME/node_modules
+  customEcho 'Running "rvm get stable"'
+  rvm get stable
 
-# TODO: keep only latest version of each major release
-for verion in `get_older_nodes`
-do
-  upgrade_echo "Running \"nvm uninstall $verion\""
-  nvm uninstall $verion
-done
+  customEcho 'Running "gem install cocoapods"'
+  gem install cocoapods
+
+  customEcho 'Running "pod repo update"'
+  pod repo update
+}
+
+homebrew
+ruby
+nodeViaNvm
