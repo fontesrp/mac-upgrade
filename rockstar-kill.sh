@@ -19,7 +19,7 @@ quitApp() {
 }
 
 apps=( \
-  'Harvest' \
+  'Figma' \
   'Microsoft Teams' \
   'Slack' \
   'Sublime Text'
