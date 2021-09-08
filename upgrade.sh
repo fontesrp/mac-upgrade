@@ -114,6 +114,7 @@ ruby() {
 
   customEcho 'Running "gem install cocoapods"'
   gem install cocoapods
+  gem install cocoapods-user-defined-build-types
 
   customEcho 'Running "pod repo update"'
   pod repo update
