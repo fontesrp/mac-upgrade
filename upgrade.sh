@@ -89,7 +89,7 @@ nodeViaNvm() {
   # TODO: install the latest release of every lts version in the system
   installLatestNode
 
-  globalNpm $npmDeps
+  globalNpm "$npmDeps"
 
   local latestNode=`getLatestNode`
 
