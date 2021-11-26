@@ -7,7 +7,7 @@ customEcho() {
 }
 
 extractVersion() {
-  sed -E "s/.*v($versionRegex).*/\\1/g" $1
+  sed -E "s/.*v($versionRegex).*/\\1/g" "$1"
 }
 
 fixSublimePackage() {
@@ -42,12 +42,12 @@ getLatestNode() {
 getNpmDepsToReinstall() {
   local npmDeps=''
 
-  for dep in `getGlobalNpmPackages`
+  for dep in $(getGlobalNpmPackages)
   do
     npmDeps="$npmDeps$dep "
   done
 
-  echo $npmDeps
+  echo "$npmDeps"
 }
 
 getOlderNodes() {
@@ -56,11 +56,13 @@ getOlderNodes() {
 }
 
 globalNpm() {
-  local originalDir=`pwd`
-  cd $HOME
+  local originalDir
+  originalDir=$(pwd)
+
+  cd "$HOME" || return
   customEcho "Running \"npm i -g $1\""
-  npm i -g $1
-  cd $originalDir
+  npm i -g "$1"
+  cd "$originalDir" || return
 }
 
 homebrew() {
@@ -71,8 +73,8 @@ homebrew() {
 }
 
 homeNodeModules() {
-  rm -f $HOME/node_modules
-  ln -s $HOME/.nvm/versions/node/v$1/lib/node_modules $HOME/node_modules
+  rm -f "$HOME/node_modules"
+  ln -s "$HOME/.nvm/versions/node/v$1/lib/node_modules" "$HOME/node_modules"
 }
 
 installLatestNode() {
@@ -84,30 +86,32 @@ nodeViaNvm() {
   export NVM_DIR=$HOME/.nvm
   . '/usr/local/opt/nvm/nvm.sh'
 
-  local npmDeps=`getNpmDepsToReinstall`
+  local npmDeps
+  npmDeps=$(getNpmDepsToReinstall)
 
   # TODO: install the latest release of every lts version in the system
   installLatestNode
 
   globalNpm "$npmDeps"
 
-  local latestNode=`getLatestNode`
+  local latestNode
+  latestNode=$(getLatestNode)
 
-  fixSublimePackage $latestNode
+  fixSublimePackage "$latestNode"
 
-  homeNodeModules $latestNode
+  homeNodeModules "$latestNode"
 
   # TODO: keep only latest version of each major release
-  for verion in `getOlderNodes`
+  for verion in $(getOlderNodes)
   do
     customEcho "Running \"nvm uninstall $verion\""
-    nvm uninstall $verion
+    nvm uninstall "$verion"
   done
 }
 
 ruby() {
   local RVM_SCRIPTS_DIR=$HOME/.rvm/scripts/rvm
-  source $RVM_SCRIPTS_DIR
+  source "$RVM_SCRIPTS_DIR"
 
   customEcho 'Running "rvm get stable"'
   rvm get stable

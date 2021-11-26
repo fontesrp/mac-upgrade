@@ -40,19 +40,21 @@ getScriptsFromJsonTree() {
 
 saveFileAsScript() {
   local filename=$1
-  local scriptName=`echo $filename | sed -E 's/([[:alpha:]]+)\.sh/\1/g'`
-  local scriptPath=/usr/local/bin/$scriptName
+  local scriptName
+  local scriptPath
 
+  scriptName=$(echo "$filename" | sed -E 's/([[:alpha:]]+)\.sh/\1/g')
+  scriptPath=/usr/local/bin/$scriptName
   customEcho "installing $scriptName"
 
   rm -f "$scriptPath"
-  downloadFile $filename > $scriptPath
-  chmod +x $scriptPath
+  downloadFile "$filename" > "$scriptPath"
+  chmod +x "$scriptPath"
 }
 
-repoTree=`getRepoTree`
+repoTree=$(getRepoTree)
 
-for file in `getScriptsFromJsonTree "$repoTree"`
+for file in $(getScriptsFromJsonTree "$repoTree")
 do
-  saveFileAsScript $file
+  saveFileAsScript "$file"
 done
