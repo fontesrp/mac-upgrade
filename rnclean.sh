@@ -32,6 +32,8 @@ customEcho() {
 }
 
 cleanAndroid() {
+  customEcho 'Cleaning Android project'
+
   local originalDir
   local androidPath=$projectRoot/android
 
@@ -50,9 +52,9 @@ cleanAndroid() {
     "$androidPath/.gradle" \
     "$androidPath/.idea" \
     "$androidPath/android.iml" \
-    "$androidPath/app/app.iml" \
+    "$androidPath/app/*.iml" \
     "$androidPath/app/build" \
-    "$androidPath/belezanaweb.iml" \
+    "$androidPath/*.iml" \
     "$androidPath/build" \
     "$androidPath/local.properties"
 }
@@ -80,13 +82,16 @@ cleanAndroidNuclear() {
 }
 
 cleanIos() {
+  customEcho 'Cleaning iOS project'
   local iosPath=$projectRoot/ios
   rm -rf \
     "$iosPath/Pods" \
-    "$iosPath/Podfile.lock"
+    "$iosPath/Podfile.lock" \
+    "$iosPath/Gemfile.lock"
 }
 
 cleanNode() {
+  customEcho 'Cleaning Node project'
   rm -rf \
     "$projectRoot/node_modules" \
     "$projectRoot/package-lock.json" \
