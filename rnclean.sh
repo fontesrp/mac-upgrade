@@ -11,11 +11,11 @@ getProjectRootDir() {
   do
     if [ -f "$projectPath/package.json" ]
     then
-      # Go up one folder
-      projectPath=$(echo "$projectPath" | sed -E 's/(.*)\/.*/\1/g')
-    else
       echo "$projectPath"
       return 0
+    else
+      # Go up one folder
+      projectPath=$(echo "$projectPath" | sed -E 's/(.*)\/.*/\1/g')
     fi
   done
 
