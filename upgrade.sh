@@ -7,13 +7,13 @@ customEcho() {
 }
 
 extractVersion() {
-  sed -E "s/.*v($versionRegex).*/\\1/g" "$1"
+  sed -E "s/.*v($versionRegex).*/\\1/g"
 }
 
 fixSublimePackage() {
   local sublimePrefsFile="$HOME/Library/Application Support/Sublime Text 3/Packages/User/JsPrettier.sublime-settings"
   local latestNode=$1
-  customEcho 'Updating path for Sublime JsPrettier'
+  customEcho "Updating path for Sublime JsPrettier (latestNode $latestNode)"
   sed \
     -i '' \
     -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
@@ -21,8 +21,8 @@ fixSublimePackage() {
 }
 
 getAllNodeVersions() {
-  nvm ls --no-colors | \
-  grep -E '^[ -]>? +v' | \
+  nvm ls --no-colors --no-alias | \
+  grep -E '^[[:space:]-]>?[[:space:]]+v' | \
   extractVersion | \
   sort -V
 }
@@ -35,8 +35,7 @@ getGlobalNpmPackages() {
 }
 
 getLatestNode() {
-  getAllNodeVersions | \
-  tail -1
+  getAllNodeVersions | tail -1
 }
 
 getNpmDepsToReinstall() {
@@ -51,8 +50,7 @@ getNpmDepsToReinstall() {
 }
 
 getOlderNodes() {
-  getAllNodeVersions | \
-  sed -E '$ d'
+  getAllNodeVersions | sed -E '$ d'
 }
 
 globalNpm() {
@@ -61,7 +59,8 @@ globalNpm() {
 
   cd "$HOME" || return
   customEcho "Running \"npm i -g $1\""
-  npm i -g "$1"
+  # shellcheck disable=SC2086
+  npm i -g $1
   cd "$originalDir" || return
 }
 
@@ -84,6 +83,7 @@ installLatestNode() {
 
 nodeViaNvm() {
   export NVM_DIR=$HOME/.nvm
+  # shellcheck disable=SC1091
   . '/usr/local/opt/nvm/nvm.sh'
 
   local npmDeps
@@ -111,6 +111,7 @@ nodeViaNvm() {
 
 ruby() {
   local RVM_SCRIPTS_DIR=$HOME/.rvm/scripts/rvm
+  # shellcheck disable=SC1090
   source "$RVM_SCRIPTS_DIR"
 
   customEcho 'Running "rvm get stable"'
