@@ -7,12 +7,9 @@ getProjectRootDir() {
   projectPath=$(pwd)
   folders=$(echo "$projectPath" | tr '/' "\n")
 
-  for folder in $folders
+  for _ in $folders
   do
-    local packageFile
-    packageFile=$(ls -la "$projectPath" | grep -c package.json)
-
-    if [ "$packageFile" == '0' ]
+    if [ -f "$projectPath/package.json" ]
     then
       # Go up one folder
       projectPath=$(echo "$projectPath" | sed -E 's/(.*)\/.*/\1/g')
