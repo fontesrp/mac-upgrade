@@ -11,13 +11,23 @@ extractVersion() {
 }
 
 fixSublimePackage() {
-  local sublimePrefsFile="$HOME/Library/Application Support/Sublime Text 3/Packages/User/JsPrettier.sublime-settings"
   local latestNode=$1
-  customEcho "Updating path for Sublime JsPrettier (latestNode $latestNode)"
+
+  local sublimePrefsFolder="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
+  local linterPrefsFile="$sublimePrefsFolder/SublimeLinter.sublime-settings"
+  local prettierPrefsFile="$sublimePrefsFolder/JsPrettier.sublime-settings"
+
+  customEcho "Updating path for Sublime JsPrettier (latest node $latestNode)"
   sed \
     -i '' \
     -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
-    "$sublimePrefsFile"
+    "$prettierPrefsFile"
+
+  customEcho "Updating path for Sublime Linter (latest node $latestNode)"
+  sed \
+    -i '' \
+    -E "s/(node\\/v)$versionRegex/\\1$latestNode/g" \
+    "$linterPrefsFile"
 }
 
 getAllNodeVersions() {
