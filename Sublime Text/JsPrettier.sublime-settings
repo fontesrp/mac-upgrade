@@ -1,0 +1,28 @@
+{
+  "allow_inline_formatting": true,
+  "auto_format_on_save": true,
+  "auto_format_on_save_excludes": ["*/node_modules/*", "*.json"],
+  "auto_format_on_save_requires_prettier_config": true,
+  "node_path": "$HOME/.nvm/versions/node/v16.13.1/bin/node",
+  "prettier_cli_path": "$HOME/.nvm/versions/node/v16.13.1/bin/prettier",
+  "prettier_options": {
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "editorconfig": true,
+    "embeddedLanguageFormatting": "auto",
+    "htmlWhitespaceSensitivity": "css",
+    "jsxBracketSameLine": false,
+    "jsxSingleQuote": false,
+    "parser": "babel",
+    "printWidth": 100,
+    "proseWrap": "preserve",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false,
+    "vueIndentScriptAndStyle": false
+  }
+}

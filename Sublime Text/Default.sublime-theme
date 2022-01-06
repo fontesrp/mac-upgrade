@@ -1,0 +1,9 @@
+{
+  "rules": [],
+  "variables": {
+    "font_face": "SF Pro",
+    "font_size": 14,
+    "font_size_lg": 16,
+    "font_size_sm": 13
+  }
+}

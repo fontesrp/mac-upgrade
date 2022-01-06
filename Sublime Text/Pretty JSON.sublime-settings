@@ -1,0 +1,15 @@
+{
+  "brace_newline": false,
+  "bracket_newline": false,
+  "ensure_ascii": false,
+  "indent": 2,
+  "keep_arrays_single_line": true,
+  "line_separator": ",",
+  "max_arrays_line_length": 100,
+  "pretty_on_save": false,
+  "reindent_block": "minimal",
+  "sort_keys": true,
+  "use_entire_file_if_no_selection": true,
+  "validate_on_save": false,
+  "value_separator": ": "
+}

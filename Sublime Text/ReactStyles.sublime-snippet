@@ -1,0 +1,14 @@
+<snippet>
+  <content><![CDATA[
+import { StyleSheet } from 'react-native'
+
+const styles = StyleSheet.create({
+  container: {}
+})
+
+export default styles
+
+]]></content>
+  <tabTrigger>styles</tabTrigger>
+  <scope>source.js</scope>
+</snippet>

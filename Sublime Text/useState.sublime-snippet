@@ -1,0 +1,7 @@
+<snippet>
+  <content><![CDATA[
+const [${1:state}, set${1/^(\w)/(?1\u$1:)/}] = useState(${2:null})
+]]></content>
+  <tabTrigger>state</tabTrigger>
+  <scope>source.js</scope>
+</snippet>

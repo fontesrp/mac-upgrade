@@ -1,0 +1,26 @@
+[
+  {
+    "args": {
+      "insert_slash": true
+    },
+    "command": "close_tag",
+    "context": [
+      {
+        "key": "selector",
+        "match_all": true,
+        "operand": "(text.html, text.xml, source.js) - string - comment",
+        "operator": "equal"
+      },
+      {
+        "key": "preceding_text",
+        "match_all": true,
+        "operand": ".*<$",
+        "operator": "regex_match"
+      },
+      {
+        "key": "setting.auto_close_tags"
+      }
+    ],
+    "keys": ["/"]
+  }
+]

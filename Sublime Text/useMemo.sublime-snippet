@@ -1,0 +1,7 @@
+<snippet>
+  <content><![CDATA[
+const ${1:myVar} = useMemo(() => {}, [])
+]]></content>
+  <tabTrigger>memo</tabTrigger>
+  <scope>source.js</scope>
+</snippet>
