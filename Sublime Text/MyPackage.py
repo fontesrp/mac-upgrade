@@ -42,7 +42,6 @@ class NewReactNativeComponentCommand(sublime_plugin.WindowCommand):
 
     os.makedirs(componentFolder, 0o777, True)
 
-    # /Users/rfontes/Library/Application Support/Sublime Text 3/Packages
     userPackages = os.path.join(sublime.packages_path(), 'User')
     componentSnippet = os.path.join(userPackages, 'ReactFunctionalComponent.sublime-snippet')
     stylesSnippet = os.path.join(userPackages, 'ReactStyles.sublime-snippet')
