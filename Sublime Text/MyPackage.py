@@ -28,7 +28,7 @@ class EslintFixCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     if self.view.match_selector(0, 'source.js'):
       filename = self.view.file_name()
-      subprocess.run('export NVM_DIR=$HOME/.nvm && . "/usr/local/opt/nvm/nvm.sh" && eslint --fix ' + filename, cwd=os.path.dirname(filename), shell=True)
+      subprocess.run("export NVM_DIR=$HOME/.nvm && if [ -f '/usr/local/opt/nvm/nvm.sh' ]; then . '/usr/local/opt/nvm/nvm.sh'; elif [ -f '/opt/homebrew/opt/nvm/nvm.sh' ]; then . '/opt/homebrew/opt/nvm/nvm.sh'; fi && eslint --fix " + filename, cwd=os.path.dirname(filename), shell=True)
 
 class NewReactNativeComponentCommand(sublime_plugin.WindowCommand):
   _currentFilename = ''
