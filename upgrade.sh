@@ -13,7 +13,7 @@ extractVersion() {
 fixSublimePackage() {
   local latestNode=$1
 
-  local sublimePrefsFolder="$HOME/Library/Application Support/Sublime Text 3/Packages/User"
+  local sublimePrefsFolder="$HOME/Library/Application Support/Sublime Text/Packages/User"
   local linterPrefsFile="$sublimePrefsFolder/SublimeLinter.sublime-settings"
   local prettierPrefsFile="$sublimePrefsFolder/JsPrettier.sublime-settings"
 
@@ -89,12 +89,15 @@ homeNodeModules() {
 installLatestNode() {
   customEcho 'Running "nvm install --lts --latest-npm"'
   nvm install --lts --latest-npm
+  nvm use --lts
 }
 
 nodeViaNvm() {
   export NVM_DIR=$HOME/.nvm
   # shellcheck disable=SC1091
-  . '/usr/local/opt/nvm/nvm.sh'
+  . '/opt/homebrew/opt/nvm/nvm.sh'
+
+  nvm use --lts
 
   local npmDeps
   npmDeps=$(getNpmDepsToReinstall)
@@ -112,11 +115,11 @@ nodeViaNvm() {
   homeNodeModules "$latestNode"
 
   # TODO: keep only latest version of each major release
-  for verion in $(getOlderNodes)
-  do
-    customEcho "Running \"nvm uninstall $verion\""
-    nvm uninstall "$verion"
-  done
+  # for verion in $(getOlderNodes)
+  # do
+  #   customEcho "Running \"nvm uninstall $verion\""
+  #   nvm uninstall "$verion"
+  # done
 }
 
 ruby() {
