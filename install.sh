@@ -131,3 +131,4 @@ installSublimeConfigs() {
 repoTree=$(getRepoTree)
 
 installScripts "$repoTree"
+installSublimeConfigs "$repoTree"
