@@ -3,8 +3,8 @@
   "auto_format_on_save": true,
   "auto_format_on_save_excludes": ["*/node_modules/*", "*.json"],
   "auto_format_on_save_requires_prettier_config": true,
-  "node_path": "$HOME/.nvm/versions/node/v16.13.1/bin/node",
-  "prettier_cli_path": "$HOME/.nvm/versions/node/v16.13.1/bin/prettier",
+  "node_path": "$HOME/.nvm/versions/node/v16.14.2/bin/node",
+  "prettier_cli_path": "$HOME/.nvm/versions/node/v16.14.2/bin/prettier",
   "prettier_options": {
     "arrowParens": "avoid",
     "bracketSpacing": true,
