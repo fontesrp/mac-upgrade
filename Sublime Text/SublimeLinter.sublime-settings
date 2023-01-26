@@ -3,7 +3,7 @@
   "linters": {
     "eslint": {
       "env": {
-        "PATH": "$HOME/.nvm/versions/node/v16.14.2/bin"
+        "PATH": "$HOME/.nvm/versions/node/v18.13.0/bin"
       }
     }
   }

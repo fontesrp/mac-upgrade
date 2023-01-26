@@ -1,0 +1,19 @@
+<snippet>
+  <content><![CDATA[
+import React from 'react'
+import { View } from 'react-native'
+
+import styles from './styles'
+
+const ${TM_FILENAME/\.js$//} = () => (
+  <View style={styles.container}>
+    <React.Fragment />
+  </View>
+)
+
+export default ${TM_FILENAME/\.js$//}
+
+]]></content>
+  <tabTrigger>react</tabTrigger>
+  <scope>source.js</scope>
+</snippet>

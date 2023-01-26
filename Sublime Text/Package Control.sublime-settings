@@ -1,18 +1,20 @@
 {
   "bootstrapped": true,
-  "in_process_packages": [
-  ],
+  "in_process_packages": [],
   "install_prereleases": ["Babel"],
-  "installed_packages":
-  [
-      "Babel",
-      "EditorConfig",
-      "JsPrettier",
-      "Package Control",
-      "Pretty JSON",
-      "SublimeLinter",
-      "SublimeLinter-eslint",
+  "installed_packages": [
+    "Babel",
+    "EditorConfig",
+    "Indent XML",
+    "JsPrettier",
+    "LSP",
+    "LSP-typescript",
+    "Package Control",
+    "Pretty JSON",
+    "SublimeLinter",
+    "SublimeLinter-contrib-swiftlint",
+    "SublimeLinter-eslint",
     "SublimeLinter-shellcheck",
-    "Swift",
-  ],
+    "Swift"
+  ]
 }
