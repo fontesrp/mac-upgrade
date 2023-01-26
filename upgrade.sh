@@ -84,6 +84,8 @@ homebrew() {
 homeNodeModules() {
   rm -f "$HOME/node_modules"
   ln -s "$HOME/.nvm/versions/node/v$1/lib/node_modules" "$HOME/node_modules"
+  rm -f "/usr/local/bin/node"
+  ln -s "$HOME/.nvm/versions/node/v$1/bin/node" "/usr/local/bin/node"
 }
 
 installLatestNode() {
