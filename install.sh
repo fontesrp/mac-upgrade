@@ -131,4 +131,5 @@ installSublimeConfigs() {
 repoTree=$(getRepoTree)
 
 installScripts "$repoTree"
-installSublimeConfigs "$repoTree"
+# TODO: fix installation of files with spaces in their names
+# installSublimeConfigs "$repoTree"
