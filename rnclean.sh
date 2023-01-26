@@ -25,7 +25,7 @@ getProjectRootDir() {
 projectRoot=$(getProjectRootDir)
 
 customEcho() {
-  echo "♨️  $1"
+  echo -e "♨️ $1" >/dev/stderr
 }
 
 cleanAndroid() {

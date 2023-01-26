@@ -3,7 +3,7 @@
 versionRegex='([[:digit:]]+\.){2}[[:digit:]]+'
 
 customEcho() {
-  echo "♨️  $1"
+  echo -e "♨️ $1" >/dev/stderr
 }
 
 extractVersion() {

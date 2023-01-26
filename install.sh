@@ -6,7 +6,7 @@ gitHubRepoPath=$gitHubUsername/$gitHubRepoName
 gitHubBranch=master
 
 customEcho() {
-  echo "♨️  $1"
+  echo -e "♨️ $1" >/dev/stderr
 }
 
 downloadFile() {
