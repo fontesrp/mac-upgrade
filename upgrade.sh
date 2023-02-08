@@ -82,10 +82,21 @@ homebrew() {
 }
 
 homeNodeModules() {
+  local usrBin=/usr/local/bin
+  local nodeFolder=$HOME/.nvm/versions/node/v$1
+  local nodeBin=$nodeFolder/bin
+
   rm -f "$HOME/node_modules"
-  ln -s "$HOME/.nvm/versions/node/v$1/lib/node_modules" "$HOME/node_modules"
-  rm -f "/usr/local/bin/node"
-  ln -s "$HOME/.nvm/versions/node/v$1/bin/node" "/usr/local/bin/node"
+  ln -s "$nodeFolder/lib/node_modules" "$HOME/node_modules"
+
+  rm -f "$usrBin/node"
+  ln -s "$nodeBin/node" "$usrBin/node"
+
+  rm -f "$usrBin/npm"
+  ln -s "$nodeBin/npm" "$usrBin/npm"
+
+  rm -f "$usrBin/npx"
+  ln -s "$nodeBin/npx" "$usrBin/npx"
 }
 
 installLatestNode() {

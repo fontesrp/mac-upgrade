@@ -84,7 +84,12 @@ cleanIos() {
   rm -rf \
     "$iosPath/Pods" \
     "$iosPath/Podfile.lock" \
-    "$iosPath/Gemfile.lock"
+    "$iosPath/Gemfile.lock" \
+    "$iosPath/build" \
+    "$iosPath/node_modules" \
+    "$iosPath/main.jsbundle" \
+    "$projectRoot/Gemfile.lock" \
+    "$projectRoot/vendor"
 }
 
 cleanNode() {

@@ -8,6 +8,10 @@
     "command": "new_react_native_component"
   },
   {
+    "caption": "React Native: New Index Component",
+    "command": "new_react_native_index_component"
+  },
+  {
     "caption": "React: Relative Path",
     "command": "react_relative_path"
   }

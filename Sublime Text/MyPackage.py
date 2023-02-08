@@ -24,30 +24,43 @@ def writeSnippet(snippetPath, filePath, componentName):
   file.write('\n'.join(lines))
   file.close()
 
+def createComponent(currentFilename, name, filename, stylesFilename, componentSnippetName):
+  currentFolder = os.path.dirname(currentFilename)
+
+  componentFolder = os.path.join(currentFolder, name)
+  componentFile = os.path.join(componentFolder, filename)
+  stylesFile = os.path.join(componentFolder, stylesFilename)
+
+  os.makedirs(componentFolder, 0o777, True)
+
+  userPackages = os.path.join(sublime.packages_path(), 'User')
+  componentSnippet = os.path.join(userPackages, componentSnippetName + '.sublime-snippet')
+  stylesSnippet = os.path.join(userPackages, 'ReactStyles.sublime-snippet')
+
+  writeSnippet(componentSnippet, componentFile, name)
+  writeSnippet(stylesSnippet, stylesFile, name)
+
 class EslintFixCommand(sublime_plugin.TextCommand):
   def run(self, edit):
     if self.view.match_selector(0, 'source.js'):
       filename = self.view.file_name()
       subprocess.run("export NVM_DIR=$HOME/.nvm && if [ -f '/usr/local/opt/nvm/nvm.sh' ]; then . '/usr/local/opt/nvm/nvm.sh'; elif [ -f '/opt/homebrew/opt/nvm/nvm.sh' ]; then . '/opt/homebrew/opt/nvm/nvm.sh'; fi && eslint --fix " + filename, cwd=os.path.dirname(filename), shell=True)
 
+class NewReactNativeIndexComponentCommand(sublime_plugin.WindowCommand):
+  _currentFilename = ''
+
+  def onNameSubmit(self, name):
+    createComponent(self._currentFilename, name, 'index.js', 'styles.js', 'ReactFunctionalIndexComponent')
+
+  def run(self):
+    self._currentFilename = self.window.active_view().file_name()
+    self.window.show_input_panel('Component name', '', self.onNameSubmit, None, None)
+
 class NewReactNativeComponentCommand(sublime_plugin.WindowCommand):
   _currentFilename = ''
 
   def onNameSubmit(self, name):
-    currentFolder = os.path.dirname(self._currentFilename)
-
-    componentFolder = os.path.join(currentFolder, name)
-    componentFile = os.path.join(componentFolder, name + '.js')
-    stylesFile = os.path.join(componentFolder, name + '.styles.js')
-
-    os.makedirs(componentFolder, 0o777, True)
-
-    userPackages = os.path.join(sublime.packages_path(), 'User')
-    componentSnippet = os.path.join(userPackages, 'ReactFunctionalComponent.sublime-snippet')
-    stylesSnippet = os.path.join(userPackages, 'ReactStyles.sublime-snippet')
-
-    writeSnippet(componentSnippet, componentFile, name)
-    writeSnippet(stylesSnippet, stylesFile, name)
+    createComponent(self._currentFilename, name, name + '.js', name + '.styles.js', 'ReactFunctionalComponent')
 
   def run(self):
     self._currentFilename = self.window.active_view().file_name()
